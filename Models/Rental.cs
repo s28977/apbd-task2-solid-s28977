@@ -9,6 +9,20 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
     public Equipment Equipment { get; set; } = equipment;
     public User User { get; set; } = user;
     
+    public double Penalty
+    {
+        get
+        {
+            DateTime endDate = ReturnDate ?? DateTime.Now;
+            if (endDate <= DueDate)
+            {
+                return 0;
+            }
+            double lateDays = Math.Ceiling((endDate - DueDate).TotalDays);
+            return lateDays * PenaltyPerDay;
+        }
+    }
+    
     public bool Overlaps(DateTime from, DateTime to)
     {
         return !(RentalDate > to || from > DueDate);
@@ -17,27 +31,5 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
     public bool IsOverdue()
     {
         return ReturnDate == null && DateTime.Now > DueDate; 
-    }
-
-    public double GetPenalty()
-    {
-        if (ReturnDate is null && DateTime.Now <= DueDate)
-        {
-            return 0;
-        } 
-        else if (ReturnDate is not null && ReturnDate <= DueDate)
-        {
-            return 0;
-        }
-        else if (ReturnDate is null && DateTime.Now > DueDate)
-        {
-            var overdueDays = Math.Ceiling((DateTime.Now - DueDate).TotalDays);
-            return overdueDays * PenaltyPerDay;
-        }
-        else
-        {
-            var lateDays = Math.Ceiling((ReturnDate!.Value - DueDate).TotalDays);
-            return lateDays * PenaltyPerDay;
-        }
     }
 }

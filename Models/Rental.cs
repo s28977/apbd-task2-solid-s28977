@@ -14,7 +14,7 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
         return !(RentalDate > to || from > DueDate);
     }
 
-    public bool IsCurrentlyDelayed()
+    public bool IsOverdue()
     {
         return ReturnDate == null && DateTime.Now > DueDate; 
     }
@@ -36,8 +36,8 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
         }
         else
         {
-            var overdueDays = Math.Ceiling((ReturnDate!.Value - DueDate).TotalDays);
-            return overdueDays * PenaltyPerDay;
+            var lateDays = Math.Ceiling((ReturnDate!.Value - DueDate).TotalDays);
+            return lateDays * PenaltyPerDay;
         }
     }
 }

@@ -38,10 +38,10 @@ public class RentalService(IDatabase database) : IRentalService
             && rental.User == user).ToList();
     }
 
-    public List<Rental> GetAllCurrentlyOverdueRentals()
+    public List<Rental> GetAllOverdueRentals()
     {
         return Database.GetAllRentals().Where(rental =>
-            rental.IsCurrentlyDelayed()).ToList();
+            rental.IsOverdue()).ToList();
     }
 
 
@@ -49,6 +49,6 @@ public class RentalService(IDatabase database) : IRentalService
     {
         return Database
             .GetAllRentals()
-            .Any(rental => rental.Equipment == equipment && (rental.Overlaps(rentalDate, dueDate) || rental.IsCurrentlyDelayed()));
+            .Any(rental => rental.Equipment == equipment && (rental.Overlaps(rentalDate, dueDate) || rental.IsOverdue()));
     }
 }

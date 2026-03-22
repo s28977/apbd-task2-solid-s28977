@@ -7,4 +7,5 @@ public abstract class User(string firstName, string lastName)
     public int Id { get; set; } = _id++;
     public string FirstName { get; set; } = firstName;
     public string LastName { get; set; } = lastName;
+    public abstract int GetMaxActiveRentals { get; }
 }

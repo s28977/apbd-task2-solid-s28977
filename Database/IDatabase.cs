@@ -8,5 +8,6 @@ public interface IDatabase
     public void SaveEquipment(Equipment equipment);
     public List<Equipment> GetAllEquipment();
     public void SaveRental(Rental rental);
+    public List<Rental> GetAllRentals();
     
 }

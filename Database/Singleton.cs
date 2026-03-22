@@ -46,5 +46,10 @@ namespace APBD_TASK2.Database
         {
             _rentals.Add(rental);
         }
+
+        public List<Rental> GetAllRentals()
+        {
+            return _rentals;
+        }
     }
 }

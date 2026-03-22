@@ -7,7 +7,7 @@ namespace APBD_TASK2.Services.Rentals;
 public class RentalService(IDatabase database) : IRentalService
 {
     private IDatabase Database { get; } = database;
-    public Rental CreateRental(User user, Equipment equipment, DateTime rentalDate, DateTime dueDate)
+    public void RentEquipment(User user, Equipment equipment, DateTime rentalDate, DateTime dueDate)
     {
         if (!equipment.IsAvailable)
         {
@@ -23,14 +23,20 @@ public class RentalService(IDatabase database) : IRentalService
             throw new TooManyRentalsException(user.Id);
         }
         var newRental = new Rental(rentalDate,  dueDate, null,  equipment, user);
-        return newRental;
+        Database.SaveRental(newRental);
     }
+
+    public void ReturnEquipment(Rental rental, DateTime returnDate)
+    {
+        rental.ReturnDate = returnDate;
+    }
+
 
     private bool SomeoneIsAlreadyRentingThisEquipment(Equipment equipment, DateTime rentalDate, DateTime dueDate)
     {
         return Database
             .GetAllRentals()
-            .Any(rental => rental.Equipment == equipment && (rental.Overlaps(rentalDate, dueDate) || rental.IsDelayed()));
+            .Any(rental => rental.Equipment == equipment && (rental.Overlaps(rentalDate, dueDate) || rental.IsCurrentlyDelayed()));
 }
 
     private int ActiveUserRentals(User user)

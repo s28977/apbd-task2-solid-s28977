@@ -18,7 +18,7 @@ public class RentalService(IDatabase database) : IRentalService
         {
             throw new RentalConflictException(equipment.Id, rentalDate, dueDate);
         }
-        if (ActiveUserRentals(user) > user.GetMaxActiveRentals)
+        if (GetActiveRentals(user).Count > user.GetMaxActiveRentals)
         {
             throw new TooManyRentalsException(user.Id);
         }
@@ -31,18 +31,24 @@ public class RentalService(IDatabase database) : IRentalService
         rental.ReturnDate = returnDate;
     }
 
+    public List<Rental> GetActiveRentals(User user)
+    {
+        return Database.GetAllRentals().Where(rental =>
+            rental.ReturnDate == null
+            && rental.User == user).ToList();
+    }
+
+    public List<Rental> GetAllCurrentlyOverdueRentals()
+    {
+        return Database.GetAllRentals().Where(rental =>
+            rental.IsCurrentlyDelayed()).ToList();
+    }
+
 
     private bool SomeoneIsAlreadyRentingThisEquipment(Equipment equipment, DateTime rentalDate, DateTime dueDate)
     {
         return Database
             .GetAllRentals()
             .Any(rental => rental.Equipment == equipment && (rental.Overlaps(rentalDate, dueDate) || rental.IsCurrentlyDelayed()));
-}
-
-    private int ActiveUserRentals(User user)
-    {
-        return Database.GetAllRentals().Count(rental =>
-            rental.ReturnDate == null
-            && rental.User == user);
     }
 }

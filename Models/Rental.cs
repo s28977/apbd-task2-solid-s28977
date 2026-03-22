@@ -16,25 +16,28 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
 
     public bool IsCurrentlyDelayed()
     {
-        return ReturnDate == null && DueDate > DateTime.Now; 
+        return ReturnDate == null && DateTime.Now > DueDate; 
     }
 
     public double GetPenalty()
     {
-        switch (ReturnDate)
+        if (ReturnDate is null && DateTime.Now <= DueDate)
         {
-            case null when DueDate <= DateTime.Now:
-                return 0;
-            case null when DueDate > DateTime.Now:
-            {
-                var overdueDays = Math.Ceiling((DateTime.Now - DueDate).TotalDays);
-                return overdueDays*PenaltyPerDay;
-            }
-            default:
-            {
-                var overdueDays = Math.Ceiling((ReturnDate!.Value - DueDate).TotalDays);
-                return overdueDays*PenaltyPerDay;
-            }
+            return 0;
+        } 
+        else if (ReturnDate is not null && ReturnDate <= DueDate)
+        {
+            return 0;
+        }
+        else if (ReturnDate is null && DateTime.Now > DueDate)
+        {
+            var overdueDays = Math.Ceiling((DateTime.Now - DueDate).TotalDays);
+            return overdueDays * PenaltyPerDay;
+        }
+        else
+        {
+            var overdueDays = Math.Ceiling((ReturnDate!.Value - DueDate).TotalDays);
+            return overdueDays * PenaltyPerDay;
         }
     }
 }

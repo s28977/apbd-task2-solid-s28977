@@ -5,4 +5,6 @@ namespace APBD_TASK2.Services.Equipments;
 public interface IEquipmentService
 {
     public void AddEquipment(Equipment equipment);
+    public List<Equipment> GetAllEquipment();
+    public List<Equipment> GetAvailableEquipment();
 }

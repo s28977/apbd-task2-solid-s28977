@@ -6,5 +6,6 @@ public interface IDatabase
 {
     public void SaveUser(User user);
     public void SaveEquipment(Equipment equipment);
+    public List<Equipment> GetAllEquipment();
     
 }

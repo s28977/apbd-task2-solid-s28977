@@ -7,20 +7,20 @@ using APBD_TASK2.Models;
 
 namespace APBD_TASK2.Database
 {
-    public class DatabaseSingleton : IDatabase
+    public class Singleton : IDatabase
     {
-        private static DatabaseSingleton? _instance;
+        private static Singleton? _instance;
 
-        public static DatabaseSingleton Instance
+        public static Singleton Instance
         {
             get
             {
-                _instance ??= new DatabaseSingleton();
+                _instance ??= new Singleton();
                 return _instance;
             }
         }
 
-        private DatabaseSingleton() { }
+        private Singleton() { }
 
         //TODO: add collections for items in the exercise
         private readonly List<User> _users = [];
@@ -32,8 +32,13 @@ namespace APBD_TASK2.Database
         }
 
         public void SaveEquipment(Equipment equipment)
-        {
+        {   
             _equipments.Add(equipment);
+        }
+
+        public List<Equipment> GetAllEquipment()
+        {
+            return _equipments;
         }
     }
 }

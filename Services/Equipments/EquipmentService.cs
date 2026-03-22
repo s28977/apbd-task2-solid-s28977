@@ -10,4 +10,14 @@ public class EquipmentService(IDatabase database) : IEquipmentService
     {
         Database.SaveEquipment(equipment);
     }
+
+    public List<Equipment> GetAllEquipment()
+    {
+        return Database.GetAllEquipment();
+    }
+
+    public List<Equipment> GetAvailableEquipment()
+    {
+        return Database.GetAllEquipment().Where(e => e.IsAvailable).ToList();
+    }
 }

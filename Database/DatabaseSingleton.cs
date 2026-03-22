@@ -24,10 +24,16 @@ namespace APBD_TASK2.Database
 
         //TODO: add collections for items in the exercise
         private readonly List<User> _users = [];
+        private readonly List<Equipment> _equipments= [];
 
         public void SaveUser(User user)
         {
             _users.Add(user);
+        }
+
+        public void SaveEquipment(Equipment equipment)
+        {
+            _equipments.Add(equipment);
         }
     }
 }

@@ -5,4 +5,6 @@ namespace APBD_TASK2.Database;
 public interface IDatabase
 {
     public void SaveUser(User user);
+    public void SaveEquipment(Equipment equipment);
+    
 }

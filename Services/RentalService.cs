@@ -1,8 +1,9 @@
 ﻿using APBD_TASK2.Database;
 using APBD_TASK2.Exceptions;
+using APBD_TASK2.Interfaces;
 using APBD_TASK2.Models;
 
-namespace APBD_TASK2.Services.Rentals;
+namespace APBD_TASK2.Services;
 
 public class RentalService(IDatabase database) : IRentalService
 {

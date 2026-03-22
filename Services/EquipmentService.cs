@@ -1,7 +1,8 @@
 ﻿using APBD_TASK2.Database;
+using APBD_TASK2.Interfaces;
 using APBD_TASK2.Models;
 
-namespace APBD_TASK2.Services.Equipments;
+namespace APBD_TASK2.Services;
 
 public class EquipmentService(IDatabase database) : IEquipmentService
 {

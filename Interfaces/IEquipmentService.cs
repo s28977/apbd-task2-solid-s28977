@@ -1,6 +1,6 @@
 ﻿using APBD_TASK2.Models;
 
-namespace APBD_TASK2.Services.Equipments;
+namespace APBD_TASK2.Interfaces;
 
 public interface IEquipmentService
 {

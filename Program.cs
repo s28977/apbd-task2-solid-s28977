@@ -2,5 +2,5 @@
 
 using APBD_TASK2.Database;
 
-var db = Singleton.Instance;
+var db = DatabaseSingleton.Instance;
 

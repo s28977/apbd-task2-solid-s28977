@@ -20,4 +20,9 @@ public class EquipmentService(IDatabase database) : IEquipmentService
     {
         return Database.GetAllEquipment().Where(e => e.IsAvailable).ToList();
     }
+
+    public void MarkAsUnavailable(Equipment equipment)
+    {
+        equipment.IsAvailable = false;
+    }
 }

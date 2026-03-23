@@ -3,6 +3,8 @@
 public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate, Equipment equipment, User user)
 {
     private const double PenaltyPerDay = 0.50;
+    private static int _id = 1;
+    public int Id { get; } = _id++;
     public DateTime RentalDate { get; private set; } = rentalDate;
     public DateTime DueDate { get; private set; } = dueDate;
     public DateTime? ReturnDate { get; set; } = returnDate;

@@ -17,9 +17,14 @@ public class EquipmentService(IDatabase database) : IEquipmentService
         return Database.GetAllEquipment();
     }
 
+    public Equipment? GetEquipmentById(int equipmentId)
+    {
+        return GetAllEquipment().FirstOrDefault(equipment => equipment.Id == equipmentId);
+    }
+
     public List<Equipment> GetAvailableEquipment()
     {
-        return Database.GetAllEquipment().Where(e => e.IsAvailable).ToList();
+        return GetAllEquipment().Where(e => e.IsAvailable).ToList();
     }
 
     public void MarkAsUnavailable(Equipment equipment)

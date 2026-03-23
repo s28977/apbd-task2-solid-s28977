@@ -1,6 +1,4 @@
-﻿
-
-using APBD_TASK2.Database;
+﻿using APBD_TASK2.Database;
 
 var db = Singleton.Instance;
 

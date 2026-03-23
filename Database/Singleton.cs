@@ -32,6 +32,11 @@ namespace APBD_TASK2.Database
             _users.Add(user);
         }
 
+        public List<User> GetAllUsers()
+        {
+            return _users;
+        }
+
         public void SaveEquipment(Equipment equipment)
         {   
             _equipments.Add(equipment);

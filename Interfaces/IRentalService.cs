@@ -4,10 +4,11 @@ namespace APBD_TASK2.Interfaces;
 
 public interface IRentalService
 {
-    public void RentEquipment(User user, Equipment equipment, DateTime rentalDate, DateTime dueDate);
+    public void RentEquipment(int userId, int equipmentId, DateTime rentalDate, DateTime dueDate);
 
-    public void ReturnEquipment(Rental rental, DateTime returnDate);
+    public void ReturnEquipment(int rentalId, DateTime returnDate);
+    public Rental? GetRentalById(int rentalId);
 
-    public List<Rental> GetActiveRentals(User user);
+    public List<Rental> GetActiveRentals(int userId);
     public List<Rental> GetAllOverdueRentals();
 }

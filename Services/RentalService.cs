@@ -5,11 +5,24 @@ using APBD_TASK2.Models;
 
 namespace APBD_TASK2.Services;
 
-public class RentalService(IDatabase database) : IRentalService
+public class RentalService(IDatabase database, IUserService userService, IEquipmentService equipmentService) : IRentalService
 {
     private IDatabase Database { get; } = database;
-    public void RentEquipment(User user, Equipment equipment, DateTime rentalDate, DateTime dueDate)
+    private IUserService UserService { get; } = userService;
+    private IEquipmentService EquipmentService { get; } = equipmentService;
+    
+    public void RentEquipment(int userId, int equipmentId, DateTime rentalDate, DateTime dueDate)
     {
+        var user = UserService.GetUserById(userId);
+        if (user == null)
+        {
+            throw new NoUserOfSuchIdException(userId);
+        }
+        var equipment = EquipmentService.GetEquipmentById(equipmentId);
+        if (equipment == null)
+        {
+            throw new NoEquipmentOfSuchIdException(userId);
+        }
         if (!equipment.IsAvailable)
         {
             throw new EquipmentUnavailableException(equipment.Id);
@@ -19,7 +32,7 @@ public class RentalService(IDatabase database) : IRentalService
         {
             throw new RentalConflictException(equipment.Id, rentalDate, dueDate);
         }
-        if (GetActiveRentals(user).Count > user.GetMaxActiveRentals)
+        if (GetActiveRentals(userId).Count > user.GetMaxActiveRentals)
         {
             throw new TooManyRentalsException(user.Id);
         }
@@ -27,13 +40,28 @@ public class RentalService(IDatabase database) : IRentalService
         Database.SaveRental(newRental);
     }
 
-    public void ReturnEquipment(Rental rental, DateTime returnDate)
+    public void ReturnEquipment(int rentalId, DateTime returnDate)
     {
+        var rental = GetRentalById(rentalId);
+        if (rental == null)
+        {
+            throw new NoRentalOfSuchIdException(rentalId);
+        }
         rental.ReturnDate = returnDate;
     }
 
-    public List<Rental> GetActiveRentals(User user)
+    public Rental? GetRentalById(int rentalId)
     {
+        return Database.GetAllRentals().FirstOrDefault(rental => rental.Id == rentalId);
+    }
+
+    public List<Rental> GetActiveRentals(int userId)
+    {
+        var user = UserService.GetUserById(userId);
+        if (user == null)
+        {
+            throw new NoUserOfSuchIdException(userId);
+        }
         return Database.GetAllRentals().Where(rental =>
             rental.ReturnDate == null
             && rental.User == user).ToList();

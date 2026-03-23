@@ -11,4 +11,14 @@ public class UserService(IDatabase database) : IUserService
     {
         Database.SaveUser(user);
     }
+
+    public List<User> GetAllUsers()
+    {
+        return Database.GetAllUsers();
+    }
+
+    public User? GetUserById(int userId)
+    {
+        return GetAllUsers().FirstOrDefault(user => user.Id == userId);
+    }
 }

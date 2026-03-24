@@ -8,6 +8,7 @@ IDatabase db = Singleton.Instance;
 IEquipmentService equipmentService = new EquipmentService(db);
 IUserService userService = new UserService(db);
 IRentalService rentalService = new RentalService(db, userService, equipmentService);
+IReportGenerator reportGenerator = new ConsoleReportGenerator(userService, equipmentService, rentalService);
 
 //11.Adding several equipment items of different types.
 
@@ -51,11 +52,10 @@ foreach (var user in userService.GetAllUsers())
 }
 
 DateTime rentalDate = DateTime.Today;
-DateTime dueDate = DateTime.Today.AddDays(7);
 
 //13.A correct rental operation.
 
-rentalService.RentEquipment(1, 1, rentalDate, dueDate);
+rentalService.RentEquipment(1, 1, rentalDate, rentalDate.AddDays(+7));
 
 Console.WriteLine(rentalService.GetRentalById(1));
 
@@ -65,7 +65,7 @@ equipmentService.MarkAsUnavailable(2);
 
 try
 {
-    rentalService.RentEquipment(2,2, rentalDate, dueDate);
+    rentalService.RentEquipment(2,2, rentalDate, rentalDate.AddDays(+7));
 }
 catch (EquipmentUnavailableException e)
 {
@@ -74,15 +74,19 @@ catch (EquipmentUnavailableException e)
 
 //15.A return completed on time.
 
-rentalService.ReturnEquipment(1, dueDate.AddDays(-1));
+rentalService.ReturnEquipment(1, rentalDate.AddDays(+6));
 
 Console.WriteLine(rentalService.GetRentalById(1));
 
 //16.A delayed return that leads to a penalty.
 
-rentalService.RentEquipment(3,3,rentalDate,dueDate);
-rentalService.ReturnEquipment(2, dueDate.AddDays(+2));
+rentalService.RentEquipment(3,3,rentalDate,rentalDate.AddDays(+7));
+rentalService.ReturnEquipment(2, rentalDate.AddDays(+9));
 
 Console.WriteLine(rentalService.GetRentalById(2));
 
 //17.Displaying a final report of the system state.
+rentalService.RentEquipment(4,4,rentalDate,rentalDate.AddDays(+7));
+rentalService.RentEquipment(4, 5,DateTime.Today.AddDays(-10),DateTime.Today.AddDays(-5));
+
+reportGenerator.GenerateReport();

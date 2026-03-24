@@ -5,11 +5,11 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
     private const double PenaltyPerDay = 0.50;
     private static int _id = 1;
     public int Id { get; } = _id++;
-    public DateTime RentalDate { get; private set; } = rentalDate;
-    public DateTime DueDate { get; private set; } = dueDate;
+    public DateTime RentalDate { get; } = rentalDate;
+    public DateTime DueDate { get; } = dueDate;
     public DateTime? ReturnDate { get; set; } = returnDate;
-    public Equipment Equipment { get; set; } = equipment;
-    public User User { get; set; } = user;
+    public Equipment Equipment { get; } = equipment;
+    public User User { get; } = user;
     
     public double Penalty
     {

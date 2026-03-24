@@ -4,8 +4,8 @@ public abstract class Equipment(string name, string brand)
 {
     private static int _id = 1;
     public int Id { get; } = _id++;
-    public string Name { get; set; } = name;
+    public string Name { get; } = name;
     public bool IsAvailable { get; set; } = true;
-    public string Brand { get; set; } = brand;
+    public string Brand { get; } = brand;
 }
 

@@ -4,8 +4,8 @@ public abstract class User(string firstName, string lastName)
 {
     private static int _id = 1;
 
-    public int Id { get; set; } = _id++;
-    public string FirstName { get; set; } = firstName;
-    public string LastName { get; set; } = lastName;
+    public int Id { get; } = _id++;
+    public string FirstName { get; } = firstName;
+    public string LastName { get; } = lastName;
     public abstract int GetMaxActiveRentals { get; }
 }

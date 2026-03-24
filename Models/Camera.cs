@@ -2,8 +2,8 @@
 
 public class Camera(string name, string brand, double aperture, int iso) : Equipment(name, brand)
 {
-    public double Aperture { get; set; } = aperture;
-    public int Iso { get; set; } = iso;
+    public double Aperture { get; } = aperture;
+    public int Iso { get; } = iso;
     
     public override string ToString()
     {

@@ -2,8 +2,8 @@
 
 public class Projector(string name, string brand, int brightness, int contrastRatio) : Equipment(name, brand)
 {
-    public int Brightness { get; set; } = brightness;
-    public int ContrastRatio { get; set; } = contrastRatio;
+    public int Brightness { get; } = brightness;
+    public int ContrastRatio { get; } = contrastRatio;
     
     public override string ToString()
     {

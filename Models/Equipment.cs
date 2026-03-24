@@ -7,11 +7,5 @@ public abstract class Equipment(string name, string brand)
     public string Name { get; set; } = name;
     public bool IsAvailable { get; set; } = true;
     public string Brand { get; set; } = brand;
-    
-    public override string ToString()
-    {
-        return $"{GetType().Name} #{Id}: {Brand} {Name}, Available: {IsAvailable}";
-    }
-    
 }
 

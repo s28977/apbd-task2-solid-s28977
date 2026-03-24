@@ -32,7 +32,7 @@ public class RentalService(IDatabase database, IUserService userService, IEquipm
         {
             throw new RentalConflictException(equipment.Id, rentalDate, dueDate);
         }
-        if (GetActiveRentals(userId).Count > user.GetMaxActiveRentals)
+        if (GetActiveRentals(userId).Count >= user.GetMaxActiveRentals)
         {
             throw new TooManyRentalsException(user.Id);
         }

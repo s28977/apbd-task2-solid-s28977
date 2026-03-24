@@ -34,4 +34,15 @@ public class Rental (DateTime rentalDate, DateTime dueDate, DateTime? returnDate
     {
         return ReturnDate == null && DateTime.Now > DueDate; 
     }
+    
+    public override string ToString()
+    {
+        string returnInfo = ReturnDate.HasValue
+            ? ReturnDate.Value.ToShortDateString()
+            : "Not returned";
+
+        return $"Rental #{Id}: {User.FirstName} {User.LastName} rented {Equipment.Brand} {Equipment.Name} " +
+               $"from {RentalDate.ToShortDateString()} to {DueDate.ToShortDateString()}, " +
+               $"Return: {returnInfo}, Penalty: {Penalty:F2}";
+    }
 }

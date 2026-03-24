@@ -8,4 +8,9 @@ public abstract class User(string firstName, string lastName)
     public string FirstName { get; set; } = firstName;
     public string LastName { get; set; } = lastName;
     public abstract int GetMaxActiveRentals { get; }
+    
+    public override string ToString()
+    {
+        return $"{GetType().Name} #{Id}: {FirstName} {LastName}, Max active rentals: {GetMaxActiveRentals}";
+    }
 }

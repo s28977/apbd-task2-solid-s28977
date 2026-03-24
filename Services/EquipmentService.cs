@@ -1,4 +1,5 @@
 ﻿using APBD_TASK2.Database;
+using APBD_TASK2.Exceptions;
 using APBD_TASK2.Interfaces;
 using APBD_TASK2.Models;
 
@@ -27,8 +28,13 @@ public class EquipmentService(IDatabase database) : IEquipmentService
         return GetAllEquipment().Where(e => e.IsAvailable).ToList();
     }
 
-    public void MarkAsUnavailable(Equipment equipment)
+    public void MarkAsUnavailable(int equipmentId)
     {
+        var equipment = GetEquipmentById(equipmentId);
+        if (equipment is null)
+        {
+            throw new NoEquipmentOfSuchIdException(equipmentId);
+        }
         equipment.IsAvailable = false;
     }
 }

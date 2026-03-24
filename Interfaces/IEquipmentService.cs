@@ -8,4 +8,5 @@ public interface IEquipmentService
     public List<Equipment> GetAllEquipment();
     public Equipment? GetEquipmentById(int equipmentId);
     public List<Equipment> GetAvailableEquipment();
+    public void MarkAsUnavailable(int equipmentId);
 }

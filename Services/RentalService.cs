@@ -50,9 +50,14 @@ public class RentalService(IDatabase database, IUserService userService, IEquipm
         rental.ReturnDate = returnDate;
     }
 
+    public List<Rental> GetRentals()
+    {
+        return Database.GetAllRentals();
+    }
+
     public Rental? GetRentalById(int rentalId)
     {
-        return Database.GetAllRentals().FirstOrDefault(rental => rental.Id == rentalId);
+        return GetRentals().FirstOrDefault(rental => rental.Id == rentalId);
     }
 
     public List<Rental> GetActiveRentals(int userId)
@@ -62,22 +67,21 @@ public class RentalService(IDatabase database, IUserService userService, IEquipm
         {
             throw new NoUserOfSuchIdException(userId);
         }
-        return Database.GetAllRentals().Where(rental =>
+        return GetRentals().Where(rental =>
             rental.ReturnDate == null
             && rental.User == user).ToList();
     }
 
     public List<Rental> GetAllOverdueRentals()
     {
-        return Database.GetAllRentals().Where(rental =>
+        return GetRentals().Where(rental =>
             rental.IsOverdue()).ToList();
     }
 
 
     private bool SomeoneIsAlreadyRentingThisEquipment(Equipment equipment, DateTime rentalDate, DateTime dueDate)
     {
-        return Database
-            .GetAllRentals()
+        return GetRentals()
             .Any(rental => rental.Equipment == equipment && (rental.Overlaps(rentalDate, dueDate) || rental.IsOverdue()));
     }
 }
